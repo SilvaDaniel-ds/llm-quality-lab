@@ -1,13 +1,12 @@
-"""Small calculations for saved human reviews."""
+"""Summary numbers for reviews saved during the current session."""
 
 
 def review_summary(reviews):
-    saved = list(reviews)
-    decided = [item for item in saved if item["choice"] in ("A", "B")]
-    matches = sum(item["choice"] == item["source_preferred"] for item in decided)
-
+    items = list(reviews)
+    decided = [row for row in items if row.get("choice") in ("A", "B")]
+    matches = sum(row.get("choice") == row.get("source_preferred") for row in decided)
     return {
-        "saved": len(saved),
+        "saved": len(items),
         "decided": len(decided),
         "matches": matches,
         "agreement_percent": round(100 * matches / len(decided), 1) if decided else None,
